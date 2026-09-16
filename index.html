@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Heritage Math - Who Are You in History & Fantasy?</title>
+    <style>
+        :root { --gold: #d4af37; --dark: #1a1a24; --bg: #f7f5f0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--dark); max-width: 650px; margin: 20px auto; padding: 15px; }
+        .card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.06); border: 1px solid #e6e3da; }
+        h1 { margin: 0 0 5px 0; color: var(--dark); font-size: 26px; text-align: center; }
+        .tagline { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+        
+        .tabs { display: flex; gap: 4px; margin-bottom: 20px; background: #eeebe3; padding: 4px; border-radius: 8px; flex-wrap: wrap; }
+        .tab-btn { flex: 1; min-width: 100px; background: none; border: none; padding: 10px; font-weight: bold; font-size: 13px; cursor: pointer; border-radius: 6px; color: #555; transition: 0.2s; }
+        .tab-btn.active { background: white; color: var(--dark); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        
+        .panel { display: none; }
+        .panel.active { display: block; }
+        
+        label { font-weight: bold; display: block; margin-bottom: 6px; font-size: 14px; color: #444; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 18px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; background: #fafafa; }
+        
+        .results { background: #fffcf4; border: 1px dashed var(--gold); padding: 15px; border-radius: 10px; margin-top: 10px; }
+        .result-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f2eedf; }
+        .result-item:last-child { border-bottom: none; }
+        .label-text { font-size: 14px; color: #555; }
+        .val-text { font-weight: bold; color: #916c16; font-size: 16px; text-align: right; }
+        
+        .share-box { margin-top: 20px; background: #eef7f2; border: 1px solid #cce8d7; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .share-text { font-size: 12px; color: #2e6943; font-weight: 500; }
+        .copy-btn { background: #2e6943; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; flex-shrink: 0; margin-left: 10px; }
+        .copy-btn:hover { background: #235234; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>🌍 Global Heritage Math</h1>
+    <div class="tagline">Translate your lifestyle into ancient history & fantasy units</div>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('wealth')">💰 Wealth</button>
+        <button class="tab-btn" onclick="switchTab('body')">📏 Your Body</button>
+        <button class="tab-btn" onclick="switchTab('travel')">🏃 Travel</button>
+        <button class="tab-btn" onclick="switchTab('fantasy')">🧙 Fantasy</button>
+    </div>
+
+    <!-- WEALTH PANEL -->
+    <div id="wealth-panel" class="panel active">
+        <label for="cashInput">Enter Any Modern Amount ($ USD equivalent):</label>
+        <input type="number" id="cashInput" value="100" min="1" oninput="calculateWealth()">
+        <div class="results">
+            <div class="result-item">
+                <span class="label-text">🏛️ Ancient Rome (Denarii):</span>
+                <span class="val-text" id="romeCash">0</span>
+            </div>
+            <div class="result-item">
+                <span class="label-text">🏴‍☠️ Golden Age Pirate (Spanish Doubloons):</span>
+                <span class="val-text" id="pirateCash">0</span>
+            </div>
+            <div class="result-item">
+                <span class="label-text">🇮🇳 Mughal Empire (Gold Mohur):</span>
+                <span class="val-text" id="mughalCash">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- BODY PANEL -->
+    <div id="body-panel" class="panel">
+        <label for="heightInput">Enter Your Height (in cm):</label>
+        <input type="number" id="heightInput" value="175" min="1" oninput="calculateBody()">
+        <div class="results">
+            <div class="result-item">
+                <span class="label-text">🧝 Medieval England (Hands & Inches):</span>
+                <span class="val-text" id="englandHeight">0</span>
+            </div>
+            <div class="result-item">
+                <span class="label-text">🏹 Ancient Vedic India (Dhanush / Bows):</span>
+                <span class="val-text" id="vedicHeight">0</span>
+            </div>
+            <div class="result-item">
+                <span class="label-text">🗼 Feudal Japan (Shaku):</span>
+                <span class="val-text" id="japanHeight">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRAVEL PANEL -->
+    <div id="travel-panel" class="panel">
+        <label for="distInput">Your Daily Commute / Walk (in km):</label>
+        <input type="number" id="distInput" value="5" min="0.1" step="0.1" oninput="calculateTravel()">
+        <div class="results">
+            <div class="result-item">
+                <span class="label-text">🐎 Ancient Persian Empire (Parasangs):</span>
+                <span class="val-text" id="persiaDist">0</span>
+            </div>
+            <div class="result-item">
+                <span class="label-text">🗺️ Medieval Maritime Leagues:</span>
+                <span class="val-text" id="leagueDist">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- FANTASY PANEL -->
+    <div id="fantasy-panel" class="panel">
+        <label for="fantasyInput">Enter Your Weight (in kg):</label>
+        <input type="number" id="fantasyInput" value="70" min="1" oninput="calculateFantasy()">
+        <div class="results">
+            <div class="result-item">
+                <span class="label-text">🐉 Dungeons & Dragons (Carry Capacity):</span>
+                <span class="val-text" id="dndWeight">0</span>
+            </div>
+            <div class="result-item">
+                <span class="label-text">🌋 Middle-earth Hobbits (Stone / Pounds):</span>
+                <span class="val-text" id="hobbitWeight">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="share-box">
+        <span class="share-text" id="sharePreview">"My pocket money equals 28 Silver Denarii in Ancient Rome! 🏛️"</span>
+        <button class="copy-btn" onclick="copyShareText()">Copy Viral Text</button>
+    </div>
+</div>
+
+<script>
+    let currentTab = 'wealth';
+
+    function switchTab(tabId) {
+        currentTab = tabId;
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById(tabId + '-panel').classList.add('active');
+        event.currentTarget.classList.add('active');
+        
+        if(tabId === 'wealth') calculateWealth();
+        if(tabId === 'body') calculateBody();
+        if(tabId === 'travel') calculateTravel();
+        if(tabId === 'fantasy') calculateFantasy();
+    }
+
+    function calculateWealth() {
+        let usd = parseFloat(document.getElementById('cashInput').value) || 0;
+        let denarii = usd / 3.5; 
+        let doubloons = usd / 400;
+        let mohur = usd / 500;
+
+        document.getElementById('romeCash').innerText = Math.max(1, Math.round(denarii)).toLocaleString() + " Silver Coins";
+        document.getElementById('pirateCash').innerText = doubloons.toFixed(2) + " Gold Doubloons";
+        document.getElementById('mughalCash').innerText = mohur.toFixed(2) + " Heavy Gold Mohurs";
+        
+        document.getElementById('sharePreview').innerText = `💰 My $${usd} would equal ${Math.round(denarii)} Silver Denarii in Ancient Rome! Try your score:`;
+    }
+
+    function calculateBody() {
+        let cm = parseFloat(document.getElementById('heightInput').value) || 0;
+        let inchesTotal = cm / 2.54;
+        let hands = Math.floor(inchesTotal / 4);
+        let remInches = Math.round(inchesTotal % 4);
+        
+        let dhanush = cm / 180; 
+        let shaku = cm / 30.3; 
+
+        document.getElementById('englandHeight').innerText = `${hands} Hands, ${remInches} Inches`;
+        document.getElementById('vedicHeight').innerText = dhanush.toFixed(2) + " Dhanush";
+        document.getElementById('japanHeight').innerText = shaku.toFixed(2) + " Shaku";
+        
+        document.getElementById('sharePreview').innerText = `📏 I am exactly ${hands} Hands tall in medieval units! Check yours here:`;
+    }
+
+    function calculateTravel() {
+        let km = parseFloat(document.getElementById('distInput').value) || 0;
+        let parasang = km / 5.6; 
+        let league = km / 4.82;
+
+        document.getElementById('persiaDist').innerText = parasang.toFixed(2) + " Parasangs";
+        document.getElementById('leagueDist').innerText = league.toFixed(2) + " Leagues";
+        
+        document.getElementById('sharePreview').innerText = `🏃 My daily route is ${parasang.toFixed(1)} Parasangs in the Ancient Persian Empire!`;
+    }
+
+    function calculateFantasy() {
+        let kg = parseFloat(document.getElementById('fantasyInput').value) || 0;
+        let lbs = kg * 2.20462;
+        let dndScore = Math.round(lbs / 15); // Rough minimum strength score needed to carry oneself
+        let stones = Math.floor(lbs / 14);
+        let remLbs = Math.round(lbs % 14);
+
+        document.getElementById('dndWeight').innerText = `Requires ${dndScore} Strength Score to carry`;
+        document.getElementById('hobbitWeight').innerText = `${stones} Stone, ${remLbs} lbs`;
+        
